@@ -31,9 +31,16 @@
             </MenuItem>
         </Menu>
         <ScrollViewer Grid.Row="1">
-            <Grid Grid.Row="1">
-            <Rectangle  Width="100" Height="1000" Fill="Yellow"></Rectangle>
-            <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Name="test">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Rectangle  Width="100" Height="1000" Fill="Yellow"></Rectangle>
+                <Grid Background="Gray"  Name="test" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" MouseEnter="test_GotFocus">
+
+                </Grid>
+                <Grid Grid.Column="1" Background="Gray"  Name="test1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" MouseEnter="test_GotFocus">
 
                 </Grid>
             </Grid>

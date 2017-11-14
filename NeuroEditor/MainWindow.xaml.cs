@@ -23,6 +23,13 @@ namespace NeuroEditor
         public MainWindow()
         {
             InitializeComponent();
+            ShowElement(new ElementVar(),test);
+            ShowElement(new ElementVar(), test1);
+        }
+
+
+        private void ShowElement(ElementVar el,Grid test)
+        {
             for (int i = 0; i < 8; i++)
             {
                 test.RowDefinitions.Add(new RowDefinition());
@@ -32,14 +39,25 @@ namespace NeuroEditor
                     var rect = new Rectangle();
                     rect.Height = 10;
                     rect.Width = 10;
-                    rect.Fill = new SolidColorBrush(Colors.Orange);
+                    if (el.Picture[i*8+j])
+                    {
+                        rect.Fill = new SolidColorBrush(Colors.Orange);
+                    }
+                    else
+                    {
+                        rect.Fill = new SolidColorBrush(Colors.White);
+                    }                 
                     rect.Margin = new Thickness(1);
                     Grid.SetRow(rect, i);
                     Grid.SetColumn(rect, j);
                     test.Children.Add(rect);
                 }
             }
+        }
 
+        private void test_GotFocus(object sender, RoutedEventArgs e)
+        {
+            new Element().ShowDialog();
         }
     }
 }
