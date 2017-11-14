@@ -14,5 +14,17 @@ namespace NeuroEditor
         {
             Picture = new bool[64];
         }
+
+        public ElementVar(bool[] mas)
+        {
+            if (mas.Length == 64)
+            {
+                Picture = mas;
+            }
+            else
+            {
+                throw new ArgumentException("Wrong length of mas");
+            }
+        }
     }
 }

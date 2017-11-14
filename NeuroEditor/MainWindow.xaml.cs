@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,13 +21,59 @@ namespace NeuroEditor
     /// </summary>
     public partial class MainWindow : Window
     {
+        private List<ElementVar> ElementsList = new List<ElementVar>();
+
+
         public MainWindow()
         {
             InitializeComponent();
-            ShowElement(new ElementVar(),test);
-            ShowElement(new ElementVar(), test1);
+            var f = File.ReadAllLines("../../../testvar.neuro");
+            for (int i = 5; i < f.Length; i++)
+            {
+                var m = new bool[64];
+                for (int j = 0; j < f[i].Length - 1 & j<64; j++)
+                {
+                    if (f[i][j].CompareTo('1') == 0)
+                    {
+                        m[j] = true;
+                    }
+                }
+                ElementsList.Add(new ElementVar(m));
+            }
+
+            ShowAllElements(ElementsList);
         }
 
+        private void ShowAllElements(List<ElementVar> list)
+        {
+            int c = (int)this.Width / 100;
+            for (int i = 0; i < c; i++)
+            {
+                Father.ColumnDefinitions.Add(new ColumnDefinition());
+            }
+            int x = 0, y = 0;
+            foreach (var item in list)
+            {
+                var g = new Grid();
+                g.Background = new SolidColorBrush(Colors.Gray);
+                g.VerticalAlignment = VerticalAlignment.Top;
+                g.HorizontalAlignment = HorizontalAlignment.Left;
+                g.Margin = new Thickness(2);
+                Father.RowDefinitions.Add(new RowDefinition());
+
+                Grid.SetRow(g, y);
+                Grid.SetColumn(g, x);
+                Father.Children.Add(g);
+                if (x == 5)
+                {
+                    x = 0;
+                    y++;
+                    Father.RowDefinitions.Add(new RowDefinition());
+                }
+                else x++;
+                ShowElement(item, g);
+            }
+        }
 
         private void ShowElement(ElementVar el,Grid test)
         {
@@ -57,7 +104,7 @@ namespace NeuroEditor
 
         private void test_GotFocus(object sender, RoutedEventArgs e)
         {
-            new Element().ShowDialog();
+            //new Element().ShowDialog();
         }
     }
 }
