@@ -38,7 +38,6 @@ namespace NeuroEditor
                 }
                 ElementsList.Add(new ElementVar(m));
             }
-            //ShowAllElements(ElementsList, this.Width);
         }
 
         private void ShowAllElements(List<ElementVar> list, double w)
@@ -46,7 +45,6 @@ namespace NeuroEditor
             Father.RowDefinitions.Clear();
             Father.ColumnDefinitions.Clear();
             Father.Children.Clear();
-
             int c = (int)w / 100;
             
             for (int i = 0; i < c; i++)
@@ -76,6 +74,10 @@ namespace NeuroEditor
                 else x++;
                 ShowElement(item, g);
             }
+            var b = AddElementButton();
+            Grid.SetRow(b, y);
+            Grid.SetColumn(b, x);
+            Father.Children.Add(b);
         }
 
         private void ShowElement(ElementVar el, Grid test)
@@ -103,8 +105,20 @@ namespace NeuroEditor
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            ShowAllElements(ElementsList, e.NewSize.Width);
-            
+            ShowAllElements(ElementsList, e.NewSize.Width);       
+        }
+
+        private Grid AddElementButton()
+        {
+            var res = new Grid();
+            res.Background = new SolidColorBrush(Colors.Gray);
+            res.Width = 80;
+            res.Height = 80;
+            var i = new Image();
+            i.Margin = new Thickness(10);
+            i.Source = new BitmapImage(new Uri("pack://application:,,,/img/add.png"));
+            res.Children.Add(i);
+            return res;
         }
     }
 }
