@@ -12,6 +12,7 @@
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
+        
         <Menu>
             <MenuItem Header="File">
                 <MenuItem Header="New"></MenuItem>
@@ -30,9 +31,11 @@
                 <MenuItem Header="Paste"></MenuItem>
             </MenuItem>
         </Menu>
+        <TextBlock Name="log" HorizontalAlignment="Right"></TextBlock>
         <ScrollViewer Grid.Row="1">
             <Grid Name="Father">
-
+                <!--<Grid Width="100" Height="100">
+                </Grid>-->
             </Grid>
         </ScrollViewer>
     </Grid>

@@ -38,8 +38,7 @@ namespace NeuroEditor
                 }
                 ElementsList.Add(new ElementVar(m));
             }
-
-            ShowAllElements(ElementsList, this.Width);
+            //ShowAllElements(ElementsList, this.Width);
         }
 
         private void ShowAllElements(List<ElementVar> list, double w)
@@ -49,6 +48,7 @@ namespace NeuroEditor
             Father.Children.Clear();
 
             int c = (int)w / 100;
+            
             for (int i = 0; i < c; i++)
             {
                 Father.ColumnDefinitions.Add(new ColumnDefinition());
@@ -65,8 +65,9 @@ namespace NeuroEditor
 
                 Grid.SetRow(g, y);
                 Grid.SetColumn(g, x);
+                Console.WriteLine(y + " " + x);
                 Father.Children.Add(g);
-                if (x == c)
+                if (x == c - 1)
                 {
                     x = 0;
                     y++;
@@ -99,10 +100,6 @@ namespace NeuroEditor
             }
         }
 
-        private void test_GotFocus(object sender, RoutedEventArgs e)
-        {
-            //new Element().ShowDialog();
-        }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
