@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeuroEditor"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="350" Width="525" SizeChanged="Window_SizeChanged">
     
     <Grid>
         <Grid.RowDefinitions>
@@ -33,12 +33,6 @@
         <ScrollViewer Grid.Row="1">
             <Grid Name="Father">
 
-                <Grid Background="Gray"  Name="test" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" MouseEnter="test_GotFocus">
-
-                </Grid>
-                <Grid Grid.Column="1" Background="Gray"  Name="test1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" MouseEnter="test_GotFocus">
-
-                </Grid>
             </Grid>
         </ScrollViewer>
     </Grid>

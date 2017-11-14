@@ -27,26 +27,28 @@ namespace NeuroEditor
         public MainWindow()
         {
             InitializeComponent();
+
             var f = File.ReadAllLines("../../../testvar.neuro");
             for (int i = 5; i < f.Length; i++)
             {
                 var m = new bool[64];
                 for (int j = 0; j < f[i].Length - 1 & j<64; j++)
                 {
-                    if (f[i][j].CompareTo('1') == 0)
-                    {
-                        m[j] = true;
-                    }
+                    m[j] = f[i][j] == '1';
                 }
                 ElementsList.Add(new ElementVar(m));
             }
 
-            ShowAllElements(ElementsList);
+            ShowAllElements(ElementsList, this.Width);
         }
 
-        private void ShowAllElements(List<ElementVar> list)
+        private void ShowAllElements(List<ElementVar> list, double w)
         {
-            int c = (int)this.Width / 100;
+            Father.RowDefinitions.Clear();
+            Father.ColumnDefinitions.Clear();
+            Father.Children.Clear();
+
+            int c = (int)w / 100;
             for (int i = 0; i < c; i++)
             {
                 Father.ColumnDefinitions.Add(new ColumnDefinition());
@@ -64,7 +66,7 @@ namespace NeuroEditor
                 Grid.SetRow(g, y);
                 Grid.SetColumn(g, x);
                 Father.Children.Add(g);
-                if (x == 5)
+                if (x == c)
                 {
                     x = 0;
                     y++;
@@ -75,7 +77,7 @@ namespace NeuroEditor
             }
         }
 
-        private void ShowElement(ElementVar el,Grid test)
+        private void ShowElement(ElementVar el, Grid test)
         {
             for (int i = 0; i < 8; i++)
             {
@@ -86,14 +88,9 @@ namespace NeuroEditor
                     var rect = new Rectangle();
                     rect.Height = 10;
                     rect.Width = 10;
-                    if (el.Picture[i*8+j])
-                    {
-                        rect.Fill = new SolidColorBrush(Colors.Orange);
-                    }
-                    else
-                    {
-                        rect.Fill = new SolidColorBrush(Colors.White);
-                    }                 
+                    if (el.Picture[i*8+j]) rect.Fill = new SolidColorBrush(Colors.Orange);
+                    else rect.Fill = new SolidColorBrush(Colors.White);
+                                  
                     rect.Margin = new Thickness(1);
                     Grid.SetRow(rect, i);
                     Grid.SetColumn(rect, j);
@@ -105,6 +102,12 @@ namespace NeuroEditor
         private void test_GotFocus(object sender, RoutedEventArgs e)
         {
             //new Element().ShowDialog();
+        }
+
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            ShowAllElements(ElementsList, e.NewSize.Width);
+            
         }
     }
 }
