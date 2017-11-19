@@ -111,14 +111,23 @@ namespace NeuroEditor
         private Grid AddElementButton()
         {
             var res = new Grid();
-            res.Background = new SolidColorBrush(Colors.Gray);
+            res.Background = Brushes.Gray;
             res.Width = 80;
             res.Height = 80;
             var i = new Image();
             i.Margin = new Thickness(10);
             i.Source = new BitmapImage(new Uri("pack://application:,,,/img/add.png"));
             res.Children.Add(i);
+            res.MouseLeftButtonDown += Father_MouseLeftButtonDown;
+
+            res.Cursor = Cursors.Hand;
             return res;
+        }
+
+        private void Father_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            //MessageBox.Show(Father.Children.IndexOf((Grid)sender).ToString());
+            new Element().ShowDialog();
         }
     }
 }
