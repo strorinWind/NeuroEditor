@@ -23,7 +23,6 @@ namespace NeuroEditor
     {
         private List<ElementVar> ElementsList = new List<ElementVar>();
 
-
         public MainWindow()
         {
             InitializeComponent();
@@ -77,13 +76,14 @@ namespace NeuroEditor
 
         private void ShowElement(ElementVar el, Grid test)
         {
+            //general properties
             test.Background = Brushes.Gray;
             test.VerticalAlignment = VerticalAlignment.Top;
             test.HorizontalAlignment = HorizontalAlignment.Left;
             test.Margin = new Thickness(2);
             test.MouseLeftButtonDown += Father_MouseLeftButtonDown;
             test.Cursor = Cursors.Hand;
-            
+            //rectangles of the information
             for (int i = 0; i < 8; i++)
             {
                 test.RowDefinitions.Add(new RowDefinition());
@@ -102,20 +102,13 @@ namespace NeuroEditor
                     test.Children.Add(rect);
                 }
             }
-
+            //for delete icon
             test.RowDefinitions.Add(new RowDefinition());
-            var g = new Grid();
+            var g = DeleteElementButton();
+            //g.MouseLeftButtonUp += Delete_MouseLeftButtonUp;
             Grid.SetRow(g, 8);
             Grid.SetColumnSpan(g, 8);
-            g.Background = Brushes.White;
-            g.Margin = new Thickness(1,0,1,1);
             test.Children.Add(g);
-            var im = new Image();
-            im.Margin = new Thickness(2);
-            im.Source = new BitmapImage(new Uri("pack://application:,,,/img/delete.jpg"));
-            im.Height = 20;
-            im.Width = 20;
-            g.Children.Add(im);
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -139,8 +132,40 @@ namespace NeuroEditor
             return res;
         }
 
+        private Grid DeleteElementButton()
+        {
+            var g = new Grid();
+            g.Background = Brushes.White;
+            g.Margin = new Thickness(1, 0, 1, 1);
+            var im = new Image();
+            im.Margin = new Thickness(2);
+            im.Source = new BitmapImage(new Uri("pack://application:,,,/img/delete.jpg"));
+            im.Height = 20;
+            im.Width = 20;
+            im.MouseLeftButtonUp += Delete_MouseLeftButtonUp;
+            g.Children.Add(im);
+            g.MouseLeftButtonUp += Delete_MouseLeftButtonUp;
+            return g;
+        }
+
+        private void Delete_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            var conf = new Confirmation();
+            conf.ShowDialog();
+            //if (conf.Value)
+            //{
+
+            //}
+        }
+
         private void Father_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            MessageBox.Show(sender.GetType().ToString());   
+            if (sender.GetType() == typeof(Image))
+            {
+                return;
+            }
+
             var index = Father.Children.IndexOf((Grid)sender);
             Element el;
             if (index == ElementsList.Count)
