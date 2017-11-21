@@ -83,7 +83,7 @@ namespace NeuroEditor
             test.Margin = new Thickness(2);
             test.MouseLeftButtonDown += Father_MouseLeftButtonDown;
             test.Cursor = Cursors.Hand;
-
+            
             for (int i = 0; i < 8; i++)
             {
                 test.RowDefinitions.Add(new RowDefinition());
@@ -102,6 +102,20 @@ namespace NeuroEditor
                     test.Children.Add(rect);
                 }
             }
+
+            test.RowDefinitions.Add(new RowDefinition());
+            var g = new Grid();
+            Grid.SetRow(g, 8);
+            Grid.SetColumnSpan(g, 8);
+            g.Background = Brushes.White;
+            g.Margin = new Thickness(1,0,1,1);
+            test.Children.Add(g);
+            var im = new Image();
+            im.Margin = new Thickness(2);
+            im.Source = new BitmapImage(new Uri("pack://application:,,,/img/delete.jpg"));
+            im.Height = 20;
+            im.Width = 20;
+            g.Children.Add(im);
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)

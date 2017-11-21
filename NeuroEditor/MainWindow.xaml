@@ -31,7 +31,7 @@
                 <MenuItem Header="Paste"></MenuItem>
             </MenuItem>
         </Menu>
-        <TextBlock Name="log" HorizontalAlignment="Right"></TextBlock>
+        <!--<TextBlock Name="log" HorizontalAlignment="Right"></TextBlock>-->
         <ScrollViewer Grid.Row="1">
             <Grid Name="Father">
                 <!--<Grid Width="100" Height="100" Background="Gray">
