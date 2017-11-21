@@ -55,15 +55,10 @@ namespace NeuroEditor
             foreach (var item in list)
             {
                 var g = new Grid();
-                g.Background = new SolidColorBrush(Colors.Gray);
-                g.VerticalAlignment = VerticalAlignment.Top;
-                g.HorizontalAlignment = HorizontalAlignment.Left;
-                g.Margin = new Thickness(2);
                 Father.RowDefinitions.Add(new RowDefinition());
 
                 Grid.SetRow(g, y);
                 Grid.SetColumn(g, x);
-                Console.WriteLine(y + " " + x);
                 Father.Children.Add(g);
                 if (x == c - 1)
                 {
@@ -82,6 +77,13 @@ namespace NeuroEditor
 
         private void ShowElement(ElementVar el, Grid test)
         {
+            test.Background = Brushes.Gray;
+            test.VerticalAlignment = VerticalAlignment.Top;
+            test.HorizontalAlignment = HorizontalAlignment.Left;
+            test.Margin = new Thickness(2);
+            test.MouseLeftButtonDown += Father_MouseLeftButtonDown;
+            test.Cursor = Cursors.Hand;
+
             for (int i = 0; i < 8; i++)
             {
                 test.RowDefinitions.Add(new RowDefinition());
@@ -124,10 +126,18 @@ namespace NeuroEditor
         }
 
         private void Father_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {            
-            var el = new Element(new bool[64]);
+        {
+            var index = Father.Children.IndexOf((Grid)sender);
+            Element el;
+            if (index == ElementsList.Count)
+                el = new Element(new bool[64]);
+            else
+                el = new Element(ElementsList[index].Picture);          
             el.ShowDialog();
-            ElementsList.Add(new ElementVar(el.m));
+            if (index == ElementsList.Count)
+                ElementsList.Add(new ElementVar(el.m));
+            else
+                ElementsList[index].Picture = el.m;
             ShowAllElements(ElementsList, Width);
         }
     }

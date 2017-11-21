@@ -42,11 +42,13 @@ namespace NeuroEditor
                     var rect = new Rectangle();
                     rect.Height = 30;
                     rect.Width = 30;
-                    if (el[i * 8 + j]) rect.Fill = Brushes.Orange;
-                    else rect.Fill = Brushes.White;
+                    if (el[i * 8 + j])
+                        rect.Fill = Brushes.Orange;
+                    else
+                        rect.Fill = Brushes.White;
+                    rect.Margin = new Thickness(1);
 
                     rect.MouseLeftButtonUp += Rect_MouseLeftButtonUp;
-                    rect.Margin = new Thickness(1);
                     Grid.SetRow(rect, i);
                     Grid.SetColumn(rect, j);
                     Surface.Children.Add(rect);
@@ -58,13 +60,9 @@ namespace NeuroEditor
         {
             var r = (Rectangle)sender;
             if (r.Fill == Brushes.Orange)
-            {
                 r.Fill = Brushes.White;
-            }
             else
-            {
                 r.Fill = Brushes.Orange;
-            }
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -72,13 +70,9 @@ namespace NeuroEditor
             for (int i = 0; i < 64; i++)
             {
                 if (((Rectangle)Surface.Children[i]).Fill == Brushes.Orange)
-                {
                     m[i] = true;
-                }
                 else
-                {
                     m[i] = false;
-                }
             }
         }
     }
