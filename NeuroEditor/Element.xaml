@@ -5,8 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeuroEditor"
         mc:Ignorable="d"
-        Title="Element" Height="300" Width="300">
+        Title="Element" Height="350" Width="525"
+        Closing="Window_Closing">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="100"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0" Name="Surface" Margin="5">
+            
+        </Grid>
     </Grid>
 </Window>

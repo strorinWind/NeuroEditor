@@ -102,7 +102,6 @@ namespace NeuroEditor
             }
         }
 
-
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             ShowAllElements(ElementsList, e.NewSize.Width);       
@@ -125,9 +124,11 @@ namespace NeuroEditor
         }
 
         private void Father_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            //MessageBox.Show(Father.Children.IndexOf((Grid)sender).ToString());
-            new Element().ShowDialog();
+        {            
+            var el = new Element(new bool[64]);
+            el.ShowDialog();
+            ElementsList.Add(new ElementVar(el.m));
+            ShowAllElements(ElementsList, Width);
         }
     }
 }
