@@ -136,6 +136,11 @@ namespace NeuroEditor
         {
             var conf = new Confirmation();
             conf.ShowDialog();
+            if (!conf.DialogResult.Value)
+                return;
+            var c = Father.Children.IndexOf((Grid)((Grid)((Button)sender).Parent).Parent);
+            ElementsList.RemoveAt(c);
+            ShowAllElements(ElementsList, Width);
         }
 
         private Grid DeleteElementButton()
