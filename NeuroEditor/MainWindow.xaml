@@ -34,7 +34,9 @@
         <!--<TextBlock Name="log" HorizontalAlignment="Right"></TextBlock>-->
         <ScrollViewer Grid.Row="1">
             <Grid Name="Father">
-                <!--<Grid Width="100" Height="100" Background="Gray">
+                <!--<Button>
+                    <Image Source="pack://application:,,,/img/add.png"></Image></Button>
+                <Grid Width="100" Height="100" Background="Gray">
                     <Image Source="pack://application:,,,/img/add.png" Margin="10"></Image>
                 </Grid>-->
             </Grid>
