@@ -104,10 +104,41 @@ namespace NeuroEditor
             }
             //for delete icon
             test.RowDefinitions.Add(new RowDefinition());
+            var n = new Grid();
+            Grid.SetColumnSpan(n, 8);
+            Grid.SetRow(n, 8);
+            for (int i=0;i<3;i++)
+                n.ColumnDefinitions.Add(new ColumnDefinition());
+            test.Children.Add(n);
+
             var g = DeleteElementButton();
-            Grid.SetRow(g, 8);
-            Grid.SetColumnSpan(g, 8);
-            test.Children.Add(g);
+            Grid.SetColumn(g, 1);
+            n.Children.Add(g);
+
+            var l = LeftArrowButton();
+            Grid.SetColumn(l, 0);
+            n.Children.Add(l);
+        }
+
+        private Grid LeftArrowButton()
+        {
+            var g = new Grid
+            {
+                Background = Brushes.White,
+                Margin = new Thickness(1, 0, 1, 1),
+            };
+            var im = new Image
+            {
+                Margin = new Thickness(2),
+                Source = new BitmapImage(new Uri("pack://application:,,,/img/left-arrow.png")),
+                Height = 20,
+                Width = 20
+            };
+            var btn = new Button();
+            btn.Content = im;
+            //btn.Click += Btn_Click;
+            g.Children.Add(btn);
+            return g;
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -138,7 +169,13 @@ namespace NeuroEditor
             conf.ShowDialog();
             if (!conf.DialogResult.Value)
                 return;
-            var c = Father.Children.IndexOf((Grid)((Grid)((Button)sender).Parent).Parent);
+            var b = (Grid)((Button)sender).Parent;
+            int c = -1;
+            while (c == -1)
+            {
+                c = Father.Children.IndexOf(b);
+                b = (Grid)b.Parent;
+            }
             ElementsList.RemoveAt(c);
             ShowAllElements(ElementsList, Width);
         }
