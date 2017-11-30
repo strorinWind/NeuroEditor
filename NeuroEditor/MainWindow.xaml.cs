@@ -119,6 +119,53 @@ namespace NeuroEditor
             var l = LeftArrowButton();
             Grid.SetColumn(l, 0);
             n.Children.Add(l);
+
+            //for right arrow icon
+            var r = RightArrowButton();
+            Grid.SetColumn(r, 2);
+            n.Children.Add(r);
+        }
+
+        private Grid RightArrowButton()
+        {
+            var g = new Grid
+            {
+                Background = Brushes.White,
+                Margin = new Thickness(1, 0, 1, 1),
+            };
+            var im = new Image
+            {
+                Margin = new Thickness(2),
+                Source = new BitmapImage(new Uri("pack://application:,,,/img/arrow-right.png")),
+                Height = 20,
+                Width = 20
+            };
+            var btn = new Button();
+            btn.Content = im;
+            btn.Click += RightMove_Click;
+            g.Children.Add(btn);
+            return g;
+        }
+
+        private void RightMove_Click(object sender, RoutedEventArgs e)
+        {
+            var b = (Grid)((Button)sender).Parent;
+            int c = -1;
+            while (c == -1)
+            {
+                c = Father.Children.IndexOf(b);
+                b = (Grid)b.Parent;
+            }
+            if (c == ElementsList.Count)
+                return;
+            var el = ElementsList[c];
+            ElementsList.RemoveAt(c);
+
+            if (c == ElementsList.Count)
+                ElementsList.Add(el);
+            else
+                ElementsList.Insert(c + 1, el);
+            ShowAllElements(ElementsList, Width);
         }
 
         private Grid LeftArrowButton()
@@ -131,7 +178,7 @@ namespace NeuroEditor
             var im = new Image
             {
                 Margin = new Thickness(2),
-                Source = new BitmapImage(new Uri("pack://application:,,,/img/left-arrow.png")),
+                Source = new BitmapImage(new Uri("pack://application:,,,/img/arrow-left.png")),
                 Height = 20,
                 Width = 20
             };
