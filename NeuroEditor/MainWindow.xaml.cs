@@ -102,7 +102,6 @@ namespace NeuroEditor
                     test.Children.Add(rect);
                 }
             }
-            //for delete icon
             test.RowDefinitions.Add(new RowDefinition());
             var n = new Grid();
             Grid.SetColumnSpan(n, 8);
@@ -111,10 +110,12 @@ namespace NeuroEditor
                 n.ColumnDefinitions.Add(new ColumnDefinition());
             test.Children.Add(n);
 
+            //for delete icon
             var g = DeleteElementButton();
             Grid.SetColumn(g, 1);
             n.Children.Add(g);
 
+            //for left arrow icon
             var l = LeftArrowButton();
             Grid.SetColumn(l, 0);
             n.Children.Add(l);
@@ -136,9 +137,26 @@ namespace NeuroEditor
             };
             var btn = new Button();
             btn.Content = im;
-            //btn.Click += Btn_Click;
+            btn.Click += LeftMove_Click;
             g.Children.Add(btn);
             return g;
+        }
+
+        private void LeftMove_Click(object sender, RoutedEventArgs e)
+        {
+            var b = (Grid)((Button)sender).Parent;
+            int c = -1;
+            while (c == -1)
+            {
+                c = Father.Children.IndexOf(b);
+                b = (Grid)b.Parent;
+            }
+            if (c==0)
+                return;
+            var el = ElementsList[c];
+            ElementsList.RemoveAt(c);
+            ElementsList.Insert(c - 1, el);
+            ShowAllElements(ElementsList, Width);
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -163,7 +181,7 @@ namespace NeuroEditor
             return res;
         }
 
-        private void Btn_Click(object sender, RoutedEventArgs e)
+        private void Delete_Click(object sender, RoutedEventArgs e)
         {
             var conf = new Confirmation();
             conf.ShowDialog();
@@ -196,8 +214,7 @@ namespace NeuroEditor
             };
             var btn = new Button();
             btn.Content = im;
-            btn.Click += Btn_Click;
-            //btn.Background = Brushes.Green;
+            btn.Click += Delete_Click;
             g.Children.Add(btn);
             return g;
         }
