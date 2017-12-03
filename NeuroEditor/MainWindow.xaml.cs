@@ -35,7 +35,9 @@ namespace NeuroEditor
                 {
                     m[j] = f[i][j] == '1';
                 }
-                ElementsList.Add(new ElementVar(m));
+                var c = new ElementVar(m);
+                c.Output = f[i][f[i].Length - 1];
+                ElementsList.Add(c);
             }
         }
 
@@ -125,7 +127,84 @@ namespace NeuroEditor
             Grid.SetColumn(r, 2);
             n.Children.Add(r);
         }
-        
+
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            ShowAllElements(ElementsList, e.NewSize.Width);
+        }
+
+        private void Father_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var index = Father.Children.IndexOf((Grid)sender);
+            Element el;
+            if (index == ElementsList.Count)
+                el = new Element(new ElementVar());
+            else
+                el = new Element(ElementsList[index]);
+            el.ShowDialog();
+            if (index == ElementsList.Count)
+                ElementsList.Add(el.elvar);
+            else
+                ElementsList[index] = el.elvar;
+            ShowAllElements(ElementsList, Width);
+        }
+
+        #region ButtonMethods
+        private Grid AddElementButton()
+        {
+            var i = new Image();
+            i.Margin = new Thickness(10);
+            i.Source = new BitmapImage(new Uri("pack://application:,,,/img/add.png"));
+            var res = new Grid
+            {
+                Background = Brushes.Gray,
+                Width = 80,
+                Height = 80,
+                Cursor = Cursors.Hand
+            };
+            res.MouseLeftButtonDown += Father_MouseLeftButtonDown;
+            res.Children.Add(i);
+            return res;
+        }
+
+        private Grid DeleteElementButton()
+        {
+            var g = new Grid
+            {
+                Background = Brushes.White,
+                Margin = new Thickness(1, 0, 1, 1),
+            };
+            var im = new Image
+            {
+                Margin = new Thickness(2),
+                Source = new BitmapImage(new Uri("pack://application:,,,/img/delete.jpg")),
+                Height = 20,
+                Width = 20
+            };
+            var btn = new Button();
+            btn.Content = im;
+            btn.Click += Delete_Click;
+            g.Children.Add(btn);
+            return g;
+        }
+
+        private void Delete_Click(object sender, RoutedEventArgs e)
+        {
+            var conf = new Confirmation();
+            conf.ShowDialog();
+            if (!conf.DialogResult.Value)
+                return;
+            var b = (Grid)((Button)sender).Parent;
+            int c = -1;
+            while (c == -1)
+            {
+                c = Father.Children.IndexOf(b);
+                b = (Grid)b.Parent;
+            }
+            ElementsList.RemoveAt(c);
+            ShowAllElements(ElementsList, Width);
+        }
+
         private Grid RightArrowButton()
         {
             var g = new Grid
@@ -198,88 +277,13 @@ namespace NeuroEditor
                 c = Father.Children.IndexOf(b);
                 b = (Grid)b.Parent;
             }
-            if (c==0)
+            if (c == 0)
                 return;
             var el = ElementsList[c];
             ElementsList.RemoveAt(c);
             ElementsList.Insert(c - 1, el);
             ShowAllElements(ElementsList, Width);
         }
-
-        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            ShowAllElements(ElementsList, e.NewSize.Width);
-        }
-
-        private Grid AddElementButton()
-        {
-            var i = new Image();
-            i.Margin = new Thickness(10);
-            i.Source = new BitmapImage(new Uri("pack://application:,,,/img/add.png"));
-            var res = new Grid
-            {
-                Background = Brushes.Gray,
-                Width = 80,
-                Height = 80,
-                Cursor = Cursors.Hand
-            };
-            res.MouseLeftButtonDown += Father_MouseLeftButtonDown;
-            res.Children.Add(i);
-            return res;
-        }
-
-        private void Delete_Click(object sender, RoutedEventArgs e)
-        {
-            var conf = new Confirmation();
-            conf.ShowDialog();
-            if (!conf.DialogResult.Value)
-                return;
-            var b = (Grid)((Button)sender).Parent;
-            int c = -1;
-            while (c == -1)
-            {
-                c = Father.Children.IndexOf(b);
-                b = (Grid)b.Parent;
-            }
-            ElementsList.RemoveAt(c);
-            ShowAllElements(ElementsList, Width);
-        }
-
-        private Grid DeleteElementButton()
-        {
-            var g = new Grid
-            {
-                Background = Brushes.White,
-                Margin = new Thickness(1, 0, 1, 1),
-            };
-            var im = new Image
-            {
-                Margin = new Thickness(2),
-                Source = new BitmapImage(new Uri("pack://application:,,,/img/delete.jpg")),
-                Height = 20,
-                Width = 20
-            };
-            var btn = new Button();
-            btn.Content = im;
-            btn.Click += Delete_Click;
-            g.Children.Add(btn);
-            return g;
-        }
-
-        private void Father_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            var index = Father.Children.IndexOf((Grid)sender);
-            Element el;
-            if (index == ElementsList.Count)
-                el = new Element(new ElementVar());
-            else
-                el = new Element(ElementsList[index]);
-            el.ShowDialog();
-            if (index == ElementsList.Count)
-                ElementsList.Add(el.elvar);
-            else
-                ElementsList[index] = el.elvar;
-            ShowAllElements(ElementsList, Width);
-        }
+        #endregion
     }
 }
