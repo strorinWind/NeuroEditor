@@ -125,7 +125,7 @@ namespace NeuroEditor
             Grid.SetColumn(r, 2);
             n.Children.Add(r);
         }
-
+        
         private Grid RightArrowButton()
         {
             var g = new Grid
@@ -147,7 +147,7 @@ namespace NeuroEditor
             return g;
         }
 
-        private void RightMove_Click(object sender, RoutedEventArgs e)
+        public void RightMove_Click(object sender, RoutedEventArgs e)
         {
             var b = (Grid)((Button)sender).Parent;
             int c = -1;
@@ -271,14 +271,14 @@ namespace NeuroEditor
             var index = Father.Children.IndexOf((Grid)sender);
             Element el;
             if (index == ElementsList.Count)
-                el = new Element(new bool[64]);
+                el = new Element(new ElementVar());
             else
-                el = new Element(ElementsList[index].Picture);
+                el = new Element(ElementsList[index]);
             el.ShowDialog();
             if (index == ElementsList.Count)
-                ElementsList.Add(new ElementVar(el.m));
+                ElementsList.Add(el.elvar);
             else
-                ElementsList[index].Picture = el.m;
+                ElementsList[index] = el.elvar;
             ShowAllElements(ElementsList, Width);
         }
     }

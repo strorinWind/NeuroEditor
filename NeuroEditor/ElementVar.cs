@@ -9,6 +9,7 @@ namespace NeuroEditor
     public class ElementVar
     {
         public bool[] Picture { get; set; }
+        public char Output { get; set; }
 
         public ElementVar()
         {
@@ -18,13 +19,9 @@ namespace NeuroEditor
         public ElementVar(bool[] mas)
         {
             if (mas.Length == 64)
-            {
                 Picture = mas;
-            }
             else
-            {
                 throw new ArgumentException("Wrong length of mas");
-            }
         }
     }
 }

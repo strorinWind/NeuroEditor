@@ -17,8 +17,8 @@
         </Grid>
         <StackPanel Grid.Column="1">
             <TextBlock HorizontalAlignment="Center" Margin="5">Обучение</TextBlock>
-            <TextBox Height="20" Width="50"></TextBox>
-            <Button Margin="5" Width="70">Обучить</Button>
+            <TextBox Height="20" Width="50" Name="OutputChar" MaxLength="1"></TextBox>
+            <Button Margin="5" Width="70" Name="Learn" Click="Learn_Click">Обучить</Button>
             <TextBlock HorizontalAlignment="Center" Margin="5">Символы нейросети</TextBlock>
             <RichTextBox Margin="5" Width="100" Height="50"></RichTextBox>
         </StackPanel>

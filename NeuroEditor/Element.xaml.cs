@@ -19,13 +19,14 @@ namespace NeuroEditor
     /// </summary>
     public partial class Element : Window
     {
-        public bool[] m;
+        //public bool[] m;
+        public ElementVar elvar;
 
-        public Element(bool[] mas)
+        public Element(ElementVar el)
         {
             InitializeComponent();
-            m = mas;
-            DrawGrigSurface(m);  
+            elvar = el;
+            DrawGrigSurface(elvar.Picture);  
         }
 
         private void DrawGrigSurface(bool[] el)
@@ -54,6 +55,7 @@ namespace NeuroEditor
                     Surface.Children.Add(rect);
                 }
             }
+            OutputChar.Text = elvar.Output.ToString();
         }
 
         private void Rect_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -70,9 +72,22 @@ namespace NeuroEditor
             for (int i = 0; i < 64; i++)
             {
                 if (((Rectangle)Surface.Children[i]).Fill == Brushes.Orange)
-                    m[i] = true;
+                    elvar.Picture[i] = true;
                 else
-                    m[i] = false;
+                    elvar.Picture[i] = false;
+            }
+        }
+
+        private void Learn_Click(object sender, RoutedEventArgs e)
+        {
+            if (OutputChar.Text.Length != 1)
+            {
+                MessageBox.Show("Введите 1 символ");
+                return;
+            }
+            else
+            {
+                elvar.Output = OutputChar.Text[0];
             }
         }
     }
