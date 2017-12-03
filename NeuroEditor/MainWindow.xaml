@@ -30,6 +30,9 @@
                 <MenuItem Header="Copy"></MenuItem>
                 <MenuItem Header="Paste"></MenuItem>
             </MenuItem>
+            <MenuItem Header="Teach Network">
+                <MenuItem Header="Open Teaching Dialog" Click="TeachItem_Click"></MenuItem>
+            </MenuItem>
         </Menu>
         <!--<TextBlock Name="log" HorizontalAlignment="Right"></TextBlock>-->
         <ScrollViewer Grid.Row="1">

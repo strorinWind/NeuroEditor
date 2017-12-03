@@ -19,7 +19,6 @@ namespace NeuroEditor
     /// </summary>
     public partial class Element : Window
     {
-        //public bool[] m;
         public ElementVar elvar;
 
         public Element(ElementVar el)

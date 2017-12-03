@@ -23,6 +23,21 @@ namespace NeuroEditor
     {
         private List<ElementVar> ElementsList = new List<ElementVar>();
 
+        private List<char> OutCharsList;
+
+        private void CountOutChars()
+        {
+            var l = new List<char>();
+            foreach (var item in ElementsList)
+            {
+                if (l.IndexOf(item.Output) == -1)
+                {
+                    l.Add(item.Output);
+                }
+            }
+            OutCharsList = l;
+        }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -39,6 +54,7 @@ namespace NeuroEditor
                 c.Output = f[i][f[i].Length - 1];
                 ElementsList.Add(c);
             }
+            CountOutChars();
         }
 
         private void ShowAllElements(List<ElementVar> list, double w)
@@ -146,7 +162,13 @@ namespace NeuroEditor
                 ElementsList.Add(el.elvar);
             else
                 ElementsList[index] = el.elvar;
+            CountOutChars();
             ShowAllElements(ElementsList, Width);
+        }
+
+        private void TeachItem_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
         #region ButtonMethods
