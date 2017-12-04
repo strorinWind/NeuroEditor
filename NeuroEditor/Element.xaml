@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:NeuroEditor"
         mc:Ignorable="d"
         Title="Element" Height="350" Width="525"
-        Closing="Window_Closing">
+        Closing="Window_Closing" 
+        MinWidth="450" MinHeight="320">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
