@@ -17,7 +17,7 @@
             <MenuItem Header="File">
                 <MenuItem Header="New"></MenuItem>
                 <MenuItem Header="Open" Click="OpenMenu_Click"></MenuItem>
-                <MenuItem Header="Save"></MenuItem>
+                <MenuItem Header="Save" Click="SaveMenu_Click"></MenuItem>
                 <MenuItem Header="SaveAs..."></MenuItem>
                 <Separator></Separator>
                 <MenuItem Header="Exit"></MenuItem>
@@ -34,14 +34,8 @@
                 <MenuItem Header="Open Teaching Dialog" Click="TeachItem_Click"></MenuItem>
             </MenuItem>
         </Menu>
-        <!--<TextBlock Name="log" HorizontalAlignment="Right"></TextBlock>-->
         <ScrollViewer Grid.Row="1">
             <Grid Name="Father">
-                <!--<Button>
-                    <Image Source="pack://application:,,,/img/add.png"></Image></Button>
-                <Grid Width="100" Height="100" Background="Gray">
-                    <Image Source="pack://application:,,,/img/add.png" Margin="10"></Image>
-                </Grid>-->
             </Grid>
         </ScrollViewer>
     </Grid>

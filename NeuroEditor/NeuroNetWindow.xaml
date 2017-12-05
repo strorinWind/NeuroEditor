@@ -11,5 +11,8 @@
             <ColumnDefinition/>
             <ColumnDefinition Width="200"/>
         </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="1">
+            <Button Name="TeachNet" Width="120" Margin="20">Обучить нейросеть</Button>
+        </StackPanel>
     </Grid>
 </Window>

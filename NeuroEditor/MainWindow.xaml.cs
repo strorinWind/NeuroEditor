@@ -23,8 +23,8 @@ namespace NeuroEditor
     public partial class MainWindow : Window
     {
         private List<ElementVar> ElementsList = new List<ElementVar>();
-
         private List<char> OutCharsList;
+        private string CurrentPath;
 
         private void CountOutChars()
         {
@@ -42,7 +42,6 @@ namespace NeuroEditor
         public MainWindow()
         {
             InitializeComponent();
-            //ReadFromFile();
             CountOutChars();
         }
 
@@ -52,12 +51,17 @@ namespace NeuroEditor
             c.DefaultExt = ".points";
             c.Filter = "Neuro |*.neuro";
             c.ShowDialog();
-            if (c.FileName != "") ReadFromFile(c.FileName);
+            if (c.FileName != "")
+            {
+                ReadFromFile(c.FileName);
+                CurrentPath = c.FileName;
+            }
             ShowAllElements(ElementsList, Width);
         }
 
         private void ReadFromFile(string path)
         {
+            ElementsList.Clear();
             var f = File.ReadAllLines(path);
             for (int i = 5; i < f.Length; i++)
             {
@@ -80,9 +84,7 @@ namespace NeuroEditor
             int c = (int)w / 100;
 
             for (int i = 0; i < c; i++)
-            {
                 Father.ColumnDefinitions.Add(new ColumnDefinition());
-            }
             int x = 0, y = 0;
             foreach (var item in list)
             {
@@ -181,15 +183,23 @@ namespace NeuroEditor
             ShowAllElements(ElementsList, Width);
         }
 
+        #region MenuItemsMethods
         private void TeachItem_Click(object sender, RoutedEventArgs e)
         {
-
+            var n = new NeuroNetWindow();
+            n.Show();
         }
 
         private void OpenMenu_Click(object sender, RoutedEventArgs e)
         {
             OpenFile();
         }
+
+        private void SaveMenu_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        #endregion
 
         #region ButtonMethods
         private Grid AddElementButton()
