@@ -24,7 +24,7 @@ namespace NeuroEditor
     {
         private List<ElementVar> ElementsList = new List<ElementVar>();
         private List<char> OutCharsList;
-        private string CurrentPath;
+        private string CurrentPath = "";
 
         private void CountOutChars()
         {
@@ -43,57 +43,6 @@ namespace NeuroEditor
         {
             InitializeComponent();
             CountOutChars();
-        }
-
-        private void OpenFile()
-        {
-            var c = new OpenFileDialog();
-            c.DefaultExt = ".points";
-            c.Filter = "Neuro |*.neuro";
-            c.ShowDialog();
-            if (c.FileName != "")
-            {
-                ReadFromFile(c.FileName);
-                CurrentPath = c.FileName;
-            }
-            ShowAllElements(ElementsList, Width);
-        }
-
-        private void ReadFromFile(string path)
-        {
-            ElementsList.Clear();
-            var f = File.ReadAllLines(path);
-            for (int i = 5; i < f.Length; i++)
-            {
-                var m = new bool[64];
-                for (int j = 0; j < f[i].Length - 1 & j < 64; j++)
-                {
-                    m[j] = f[i][j] == '1';
-                }
-                var c = new ElementVar(m);
-                c.Output = f[i][f[i].Length - 1];
-                ElementsList.Add(c);
-            }
-        }
-
-        private void WriteToFile(string path)
-        {           
-            var s = new string[ElementsList.Count + 5];
-            var r = File.ReadAllLines(path);
-            for (int i = 0; i < 5; i++)
-                s[i] = r[i];   
-
-            for (int i = 0; i < ElementsList.Count; i++)
-            {
-                string k = "";
-                foreach (var item in ElementsList[i].Picture)
-                {
-                    k += item ? "1" : "0";
-                }
-                k += ";" + ElementsList[i].Output;
-                s[i + 5] = k;
-            }
-            File.WriteAllLines(path,s);
         }
 
         private void ShowAllElements(List<ElementVar> list, double w)
@@ -203,6 +152,59 @@ namespace NeuroEditor
             ShowAllElements(ElementsList, Width);
         }
 
+        #region FileMethods
+        private void OpenFile()
+        {
+            var c = new OpenFileDialog();
+            c.DefaultExt = ".neuro";
+            c.Filter = "Neuro |*.neuro";
+            c.ShowDialog();
+            if (c.FileName != "")
+            {
+                ReadFromFile(c.FileName);
+                CurrentPath = c.FileName;
+            }
+            ShowAllElements(ElementsList, Width);
+        }
+
+        private void ReadFromFile(string path)
+        {
+            ElementsList.Clear();
+            var f = File.ReadAllLines(path);
+            for (int i = 5; i < f.Length; i++)
+            {
+                var m = new bool[64];
+                for (int j = 0; j < f[i].Length - 1 & j < 64; j++)
+                {
+                    m[j] = f[i][j] == '1';
+                }
+                var c = new ElementVar(m);
+                c.Output = f[i][f[i].Length - 1];
+                ElementsList.Add(c);
+            }
+        }
+
+        private void WriteToFile(string path)
+        {
+            var s = new string[ElementsList.Count + 5];
+            var r = File.ReadAllLines(path);
+            for (int i = 0; i < 5; i++)
+                s[i] = r[i];
+
+            for (int i = 0; i < ElementsList.Count; i++)
+            {
+                string k = "";
+                foreach (var item in ElementsList[i].Picture)
+                {
+                    k += item ? "1" : "0";
+                }
+                k += ";" + ElementsList[i].Output;
+                s[i + 5] = k;
+            }
+            File.WriteAllLines(path, s);
+        }
+        #endregion
+
         #region MenuItemsMethods
         private void TeachItem_Click(object sender, RoutedEventArgs e)
         {
@@ -217,8 +219,26 @@ namespace NeuroEditor
 
         private void SaveMenu_Click(object sender, RoutedEventArgs e)
         {
-            WriteToFile(CurrentPath);
-            MessageBox.Show("Изменения сохранены в файл");
+            if (CurrentPath != "")
+            {
+                WriteToFile(CurrentPath);
+                MessageBox.Show("Изменения сохранены в файл");
+            }
+            else SaveAsMenu_Click(sender, e);       
+        }
+
+        private void SaveAsMenu_Click(object sender, RoutedEventArgs e)
+        {
+            var c = new SaveFileDialog();
+
+            c.DefaultExt = ".neuro";
+            c.Filter = "Neuro |*.neuro";
+            c.FileName = "Doc1.neuro";
+
+            if (c.ShowDialog().Value)
+            {
+                MessageBox.Show(c.FileName);
+            }
         }
         #endregion
 
