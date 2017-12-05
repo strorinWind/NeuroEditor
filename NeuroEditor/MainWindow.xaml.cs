@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -41,8 +42,23 @@ namespace NeuroEditor
         public MainWindow()
         {
             InitializeComponent();
+            //ReadFromFile();
+            CountOutChars();
+        }
 
-            var f = File.ReadAllLines("../../../testvar.neuro");
+        private void OpenFile()
+        {
+            var c = new OpenFileDialog();
+            c.DefaultExt = ".points";
+            c.Filter = "Neuro |*.neuro";
+            c.ShowDialog();
+            if (c.FileName != "") ReadFromFile(c.FileName);
+            ShowAllElements(ElementsList, Width);
+        }
+
+        private void ReadFromFile(string path)
+        {
+            var f = File.ReadAllLines(path);
             for (int i = 5; i < f.Length; i++)
             {
                 var m = new bool[64];
@@ -54,7 +70,6 @@ namespace NeuroEditor
                 c.Output = f[i][f[i].Length - 1];
                 ElementsList.Add(c);
             }
-            CountOutChars();
         }
 
         private void ShowAllElements(List<ElementVar> list, double w)
@@ -124,7 +139,7 @@ namespace NeuroEditor
             var n = new Grid();
             Grid.SetColumnSpan(n, 8);
             Grid.SetRow(n, 8);
-            for (int i=0;i<3;i++)
+            for (int i = 0; i < 3; i++)
                 n.ColumnDefinitions.Add(new ColumnDefinition());
             test.Children.Add(n);
 
@@ -171,6 +186,11 @@ namespace NeuroEditor
 
         }
 
+        private void OpenMenu_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFile();
+        }
+
         #region ButtonMethods
         private Grid AddElementButton()
         {
@@ -182,8 +202,11 @@ namespace NeuroEditor
                 Background = Brushes.Gray,
                 Width = 80,
                 Height = 80,
-                Cursor = Cursors.Hand
-            };
+                Cursor = Cursors.Hand,
+                VerticalAlignment = VerticalAlignment.Top,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Margin = new Thickness(10)
+        };
             res.MouseLeftButtonDown += Father_MouseLeftButtonDown;
             res.Children.Add(i);
             return res;
