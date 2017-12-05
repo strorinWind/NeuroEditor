@@ -76,6 +76,26 @@ namespace NeuroEditor
             }
         }
 
+        private void WriteToFile(string path)
+        {           
+            var s = new string[ElementsList.Count + 5];
+            var r = File.ReadAllLines(path);
+            for (int i = 0; i < 5; i++)
+                s[i] = r[i];   
+
+            for (int i = 0; i < ElementsList.Count; i++)
+            {
+                string k = "";
+                foreach (var item in ElementsList[i].Picture)
+                {
+                    k += item ? "1" : "0";
+                }
+                k += ";" + ElementsList[i].Output;
+                s[i + 5] = k;
+            }
+            File.WriteAllLines(path,s);
+        }
+
         private void ShowAllElements(List<ElementVar> list, double w)
         {
             Father.RowDefinitions.Clear();
@@ -197,7 +217,8 @@ namespace NeuroEditor
 
         private void SaveMenu_Click(object sender, RoutedEventArgs e)
         {
-
+            WriteToFile(CurrentPath);
+            MessageBox.Show("Изменения сохранены в файл");
         }
         #endregion
 
