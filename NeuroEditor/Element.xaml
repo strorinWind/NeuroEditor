@@ -22,6 +22,8 @@
             <Button Margin="5" Width="70" Name="Learn" Click="Learn_Click">Обучить</Button>
             <TextBlock HorizontalAlignment="Center" Margin="5">Символы нейросети</TextBlock>
             <RichTextBox Margin="5" Width="100" Height="50"></RichTextBox>
+            <Button Margin="20" Width="100" Click="ComputeButton_Click">Распознать
+            </Button>
         </StackPanel>
     </Grid>
 </Window>

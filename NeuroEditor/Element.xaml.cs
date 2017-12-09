@@ -89,5 +89,10 @@ namespace NeuroEditor
                 elvar.Output = OutputChar.Text[0];
             }
         }
+
+        private void ComputeButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

@@ -42,11 +42,13 @@ namespace NeuroEditor
         public MainWindow()
         {
             InitializeComponent();
-            CountOutChars();
+            //CountOutChars();
         }
 
         private void ShowAllElements(List<ElementVar> list, double w)
         {
+            CountOutChars();
+
             Father.RowDefinitions.Clear();
             Father.ColumnDefinitions.Clear();
             Father.Children.Clear();
@@ -148,7 +150,7 @@ namespace NeuroEditor
                 ElementsList.Add(el.elvar);
             else
                 ElementsList[index] = el.elvar;
-            CountOutChars();
+            //CountOutChars();
             ShowAllElements(ElementsList, Width);
         }
 
@@ -208,7 +210,7 @@ namespace NeuroEditor
         #region MenuItemsMethods
         private void TeachItem_Click(object sender, RoutedEventArgs e)
         {
-            var n = new NeuroNetWindow();
+            var n = new NeuroNetWindow(ElementsList, OutCharsList);
             n.Show();
         }
 
