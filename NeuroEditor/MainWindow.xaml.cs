@@ -250,6 +250,12 @@ namespace NeuroEditor
                 MessageBox.Show(c.FileName);
             }
         }
+
+        private void ExitMenu_Click(object sender, RoutedEventArgs e)
+        {
+            SaveMenu_Click(sender, e);
+            Close();
+        }
         #endregion
 
         #region ButtonMethods
