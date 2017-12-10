@@ -25,6 +25,7 @@ namespace NeuroEditor
         private List<ElementVar> ElementsList = new List<ElementVar>();
         private List<char> OutCharsList;
         private string CurrentPath = "";
+        private Neurohelper nhelper = new Neurohelper();
 
         private void CountOutChars()
         {
@@ -154,6 +155,23 @@ namespace NeuroEditor
             ShowAllElements(ElementsList, Width);
         }
 
+        #region NeuroMethods
+        private bool[,] ConvertToCells(bool[] l)
+        {
+            bool[,] cells = new bool[8, 8];
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    cells[i, j] = l[i * 8 + j];
+                }
+            }
+            return cells;
+        }
+
+
+        #endregion
+
         #region FileMethods
         private void OpenFile()
         {
@@ -210,8 +228,15 @@ namespace NeuroEditor
         #region MenuItemsMethods
         private void TeachItem_Click(object sender, RoutedEventArgs e)
         {
-            var n = new NeuroNetWindow(ElementsList, OutCharsList);
-            n.Show();
+            //var n = new NeuroNetWindow(ElementsList, OutCharsList);
+            //n.Show();
+            for (int i = 0; i < ElementsList.Count; i++)
+            {
+                nhelper.TeachNet(ElementsList[i].Output.ToString(), ConvertToCells(ElementsList[i].Picture));
+            }
+            //Console.WriteLine(nhelper.net.Percs.Count);
+            //Console.WriteLine(nhelper.net.Links.Count);
+            MessageBox.Show("Обучение завершено");
         }
 
         private void OpenMenu_Click(object sender, RoutedEventArgs e)
