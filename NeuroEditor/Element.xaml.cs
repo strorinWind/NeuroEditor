@@ -20,11 +20,13 @@ namespace NeuroEditor
     public partial class Element : Window
     {
         public ElementVar elvar;
+        public Neurohelper helper;
 
-        public Element(ElementVar el)
+        public Element(ElementVar el, Neurohelper h)
         {
             InitializeComponent();
             elvar = el;
+            helper = h;
             DrawGrigSurface(elvar.Picture);  
         }
 
@@ -92,7 +94,8 @@ namespace NeuroEditor
 
         private void ComputeButton_Click(object sender, RoutedEventArgs e)
         {
-
+            var res = helper.ComputeNet(elvar.Picture);
+            MessageBox.Show(res);
         }
     }
 }

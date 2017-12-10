@@ -9,7 +9,20 @@ namespace NeuroEditor
     public class Neurohelper
     {
         //private bool[,] cells = new bool[8, 8];
-        public NeuronNet net = new NeuronNet((8 * 8)); // создаем новую нейросеть
+        private NeuronNet net = new NeuronNet((8 * 8)); // создаем новую нейросеть
+
+        private bool[,] ConvertToCells(bool[] l)
+        {
+            bool[,] cells = new bool[8, 8];
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    cells[i, j] = l[i * 8 + j];
+                }
+            }
+            return cells;
+        }
 
         private void SetInputs(bool[,] cells)  // на вход нейросети задает двоичные сигналы в соответсвии со значениями клеток(1 или 0)
         {
@@ -24,7 +37,7 @@ namespace NeuroEditor
             }
         }
 
-        public void TeachNet(string n, bool[,] cells)  // метод, который обучает нейросеть
+        public void TeachNet(string n, bool[] cells)  // метод, который обучает нейросеть
         {
             var name = n;  // присваиваем переменной name текст 
 
@@ -34,13 +47,13 @@ namespace NeuroEditor
                 //frm.richTextBox1.AppendText(name + "\n");  // добавляем имя персептрона в richTextBox1
             }
 
-            SetInputs(cells);  // подаем на вход двоичные сигналы
+            SetInputs(ConvertToCells(cells));  // подаем на вход двоичные сигналы
             net.TeachFromInput(name);  // обучаем нейронную сеть
         }
 
-        private string ComputeNet(bool[,] cells)  // метод, который угадывает символ
+        public string ComputeNet(bool[] cells)  // метод, который угадывает символ
         {
-            SetInputs(cells);
+            SetInputs(ConvertToCells(cells));
 
             string str1 = "";
 

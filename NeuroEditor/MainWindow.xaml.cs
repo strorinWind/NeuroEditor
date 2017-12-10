@@ -43,9 +43,9 @@ namespace NeuroEditor
         public MainWindow()
         {
             InitializeComponent();
-            //CountOutChars();
         }
 
+        #region Drawing Methods
         private void ShowAllElements(List<ElementVar> list, double w)
         {
             CountOutChars();
@@ -132,6 +132,7 @@ namespace NeuroEditor
             Grid.SetColumn(r, 2);
             n.Children.Add(r);
         }
+        #endregion
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
@@ -143,34 +144,16 @@ namespace NeuroEditor
             var index = Father.Children.IndexOf((Grid)sender);
             Element el;
             if (index == ElementsList.Count)
-                el = new Element(new ElementVar());
+                el = new Element(new ElementVar(), nhelper);
             else
-                el = new Element(ElementsList[index]);
+                el = new Element(ElementsList[index], nhelper);
             el.ShowDialog();
             if (index == ElementsList.Count)
                 ElementsList.Add(el.elvar);
             else
                 ElementsList[index] = el.elvar;
-            //CountOutChars();
             ShowAllElements(ElementsList, Width);
         }
-
-        #region NeuroMethods
-        private bool[,] ConvertToCells(bool[] l)
-        {
-            bool[,] cells = new bool[8, 8];
-            for (int i = 0; i < 8; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-                    cells[i, j] = l[i * 8 + j];
-                }
-            }
-            return cells;
-        }
-
-
-        #endregion
 
         #region FileMethods
         private void OpenFile()
@@ -232,7 +215,7 @@ namespace NeuroEditor
             //n.Show();
             for (int i = 0; i < ElementsList.Count; i++)
             {
-                nhelper.TeachNet(ElementsList[i].Output.ToString(), ConvertToCells(ElementsList[i].Picture));
+                nhelper.TeachNet(ElementsList[i].Output.ToString(), ElementsList[i].Picture);
             }
             //Console.WriteLine(nhelper.net.Percs.Count);
             //Console.WriteLine(nhelper.net.Links.Count);
