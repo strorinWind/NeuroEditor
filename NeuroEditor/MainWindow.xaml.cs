@@ -26,7 +26,7 @@ namespace NeuroEditor
         private List<char> OutCharsList;
         private string CurrentPath = "";
         private Neurohelper nhelper = new Neurohelper();
-
+        
         private void CountOutChars()
         {
             var l = new List<char>();
@@ -190,9 +190,18 @@ namespace NeuroEditor
         private void WriteToFile(string path)
         {
             var s = new string[ElementsList.Count + 5];
-            var r = File.ReadAllLines(path);
-            for (int i = 0; i < 5; i++)
-                s[i] = r[i];
+            if (File.Exists(path))
+            {
+                var r = File.ReadAllLines(path);
+                for (int i = 0; i < 5; i++)
+                    s[i] = r[i];
+            }
+            else
+            {
+                for (int i = 0; i < 5; i++)
+                    s[i] = "";
+            }
+
 
             for (int i = 0; i < ElementsList.Count; i++)
             {
@@ -244,11 +253,8 @@ namespace NeuroEditor
             c.DefaultExt = ".neuro";
             c.Filter = "Neuro |*.neuro";
             c.FileName = "Doc1.neuro";
-
-            if (c.ShowDialog().Value)
-            {
-                MessageBox.Show(c.FileName);
-            }
+            c.ShowDialog();
+            WriteToFile(c.FileName);
         }
 
         private void ExitMenu_Click(object sender, RoutedEventArgs e)
