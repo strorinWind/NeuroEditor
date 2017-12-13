@@ -63,7 +63,7 @@ namespace NeuroEditor
                 {
                     /*str1 = "Символ: ";
                     str1 += net.Percs[i].Name + " ";*/
-                    str1 += net.Percs[i].Name; 
+                    str1 += net.Percs[i].Name + " ";
                 }
             }
             return str1;

@@ -201,8 +201,6 @@ namespace NeuroEditor
                 for (int i = 0; i < 5; i++)
                     s[i] = "";
             }
-
-
             for (int i = 0; i < ElementsList.Count; i++)
             {
                 string k = "";
