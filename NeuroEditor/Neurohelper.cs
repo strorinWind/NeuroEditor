@@ -8,7 +8,6 @@ namespace NeuroEditor
 {
     public class Neurohelper
     {
-        //private bool[,] cells = new bool[8, 8];
         private NeuronNet net = new NeuronNet((8 * 8)); // создаем новую нейросеть
 
         private bool[,] ConvertToCells(bool[] l)
